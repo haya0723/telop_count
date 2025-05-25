@@ -6,7 +6,33 @@ function App() {
   const [processedData, setProcessedData] = useState([]);
   const [outputFileName, setOutputFileName] = useState('');
   const [userInputFileName, setUserInputFileName] = useState(''); // State for user-defined filename
+  const [selectedRows, setSelectedRows] = useState(new Set()); // State for selected row indices
   const [error, setError] = useState('');
+
+  const handleRowSelect = (index) => {
+    const newSelectedRows = new Set(selectedRows);
+    if (newSelectedRows.has(index)) {
+      newSelectedRows.delete(index);
+    } else {
+      newSelectedRows.add(index);
+    }
+    setSelectedRows(newSelectedRows);
+  };
+
+  const handleSelectAllRows = (event) => {
+    if (event.target.checked) {
+      const allRowIndices = new Set(processedData.map((_, index) => index));
+      setSelectedRows(allRowIndices);
+    } else {
+      setSelectedRows(new Set());
+    }
+  };
+
+  const handleDeleteSelectedRows = () => {
+    const newProcessedData = processedData.filter((_, index) => !selectedRows.has(index));
+    setProcessedData(newProcessedData);
+    setSelectedRows(new Set()); // Clear selection after deletion
+  };
 
   // Helper function: Convert HH:MM to total minutes from midnight
   const timeToMinutes = (timeStr) => {
@@ -102,6 +128,7 @@ function App() {
 
     // console.log("Final Processed Data:", finalProcessedData); // Debug log removed
     setProcessedData(finalProcessedData);
+    setSelectedRows(new Set()); // Reset selection when new data is processed
 
     // Generate default filename and set it for both output and user input field
     const now = new Date();
@@ -218,11 +245,17 @@ function App() {
             <button onClick={downloadCsv} disabled={processedData.length === 0} style={{ verticalAlign: 'middle' }}>
               CSVダウンロード
             </button>
+            {selectedRows.size > 0 && (
+              <button onClick={handleDeleteSelectedRows} style={{ marginLeft: '10px', verticalAlign: 'middle', backgroundColor: '#dc3545', borderColor: '#dc3545', color: 'white' }}>
+                選択項目を削除 ({selectedRows.size})
+              </button>
+            )}
           </div>
           <div style={{ border: '1px solid #ccc', marginTop: '10px' }}> {/* Added marginTop for spacing */}
             <table style={{ width: '100%' }}>{/* Table width to 100% of its container, removed space before thead */}
               <thead>
                 <tr>
+                  <th><input type="checkbox" onChange={handleSelectAllRows} checked={processedData.length > 0 && selectedRows.size === processedData.length} /></th>
                   <th>経過時間</th>
                   <th>区間</th>
                   <th>テロップ内容</th>
@@ -231,7 +264,16 @@ function App() {
                 </tr>
               </thead>
               <tbody>
-                {processedData.map((row, index) => (<tr key={index}><td>{row[0] === null || row[0] === undefined ? '' : row[0]}</td><td>{row[1] === null || row[1] === undefined ? '' : row[1]}</td><td>{row[2] === null || row[2] === undefined ? '' : row[2]}</td><td>{row[row.length - 2] === null || row[row.length - 2] === undefined ? '' : row[row.length - 2]}</td>{/* Char count */}<td>{row[row.length - 1] === null || row[row.length - 1] === undefined ? '' : row[row.length - 1]}</td>{/* Average value */}</tr>))}
+                {processedData.map((row, index) => (
+                  <tr key={index} className={selectedRows.has(index) ? 'selected-row' : ''}>
+                    <td><input type="checkbox" checked={selectedRows.has(index)} onChange={() => handleRowSelect(index)} /></td>
+                    <td>{row[0] === null || row[0] === undefined ? '' : row[0]}</td>
+                    <td>{row[1] === null || row[1] === undefined ? '' : row[1]}</td>
+                    <td>{row[2] === null || row[2] === undefined ? '' : row[2]}</td>
+                    <td>{row[row.length - 2] === null || row[row.length - 2] === undefined ? '' : row[row.length - 2]}</td>{/* Char count */}
+                    <td>{row[row.length - 1] === null || row[row.length - 1] === undefined ? '' : row[row.length - 1]}</td>{/* Average value */}
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>

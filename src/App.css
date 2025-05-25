@@ -38,6 +38,13 @@ th {
   color: #313540; /* Figma: fill_YJY8EP */
 }
 
+th input[type="checkbox"],
+td input[type="checkbox"] {
+  transform: scale(1.5); /* Increase checkbox size */
+  margin: 0.2em; /* Adjust margin to compensate for scaling */
+  vertical-align: middle;
+}
+
 /* Remove default Vite template styles if not used */
 /*
 .logo { ... }
