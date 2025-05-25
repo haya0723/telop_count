@@ -3,7 +3,7 @@
   background-color: #FFFFFF;
   padding: 2rem; /* Adjust as needed based on Figma layout */
   margin: 2rem auto; /* Centering the app container */
-  max-width: 1440px; /* Or based on Figma's content width */
+  max-width: 1300px; /* Or based on Figma's content width */
   border-radius: 8px; /* Optional, for a contained look */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional, for some depth */
   text-align: left; /* Override index.css text-align: center if it was there */
