@@ -41,20 +41,20 @@ h1 {
 }
 
 button {
-  border-radius: 4px; /* Figma: search_bar borderRadius */
-  border: 1px solid #0771F6; /* Figma: Btn stroke_D38I5T */
+  border-radius: 4px; /* Keeping moderate radius, Figma's 55px is very large */
+  border: 1px solid #0771F6; /* Border with the same color as background for solid look */
   padding: 0.6em 1.2em;
   font-size: 1em;
-  font-weight: 700; /* Figma: Btn font-weight */
-  font-family: inherit; /* Uses :root font-family */
-  background-color: #FFFFFF; /* Figma: Btn background (assuming, or could be transparent with border) */
-  color: #0771F6; /* Figma: Btn text color fill_R1NNC0 */
+  font-weight: 700; /* Figma: style_O0FRQ0 */
+  font-family: inherit;
+  background-color: #0771F6; /* Figma: fill_EX7613 (Blue fill) */
+  color: #FFFFFF; /* Figma: fill_90KIBI (White text) */
   cursor: pointer;
   transition: background-color 0.25s, border-color 0.25s;
 }
 button:hover {
-  border-color: #055abf;
-  background-color: #f0f0f0; /* Light hover effect */
+  background-color: #0065DE; /* Figma: fill_RTETDW (Darker blue for hover) */
+  border-color: #0065DE; 
 }
 button:focus,
 button:focus-visible {
