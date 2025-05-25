@@ -1,42 +1,46 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+.App {
+  /* Figma: 素材検索 / リスト表示 (2450:38242) の fills: fill_MOHS06 (#FFFFFF) */
+  background-color: #FFFFFF;
+  padding: 2rem; /* Adjust as needed based on Figma layout */
+  margin: 2rem auto; /* Centering the app container */
+  max-width: 1440px; /* Or based on Figma's content width */
+  border-radius: 8px; /* Optional, for a contained look */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional, for some depth */
+  text-align: left; /* Override index.css text-align: center if it was there */
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+/* Styles for textarea and table can be added here if not handled by inline styles or index.css */
+textarea {
+  border: 1px solid #C3C6D4; /* Figma: search_bar Line 21 stroke_AVSEVQ or similar */
+  border-radius: 4px; /* Figma: search_bar borderRadius */
+  padding: 0.5em;
+  font-family: inherit;
+  font-size: 16px; /* Increased font size */
+  width: calc(100% - 1em); /* Adjust width considering padding */
+  margin-bottom: 1rem;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  /* margin-top: 1rem; */ /* Removed margin-top */
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+th, td {
+  border: 1px solid #EBEBF5; /* Figma: Divider stroke_YLLR4X */
+  padding: 0.5em;
+  text-align: left;
 }
 
-.card {
-  padding: 2em;
+th {
+  background-color: #F2F2F7; /* A light gray for header, adjust based on Figma if available */
+  font-weight: 700; /* Figma: style_7YX9RH */
+  color: #313540; /* Figma: fill_YJY8EP */
 }
 
-.read-the-docs {
-  color: #888;
-}
+/* Remove default Vite template styles if not used */
+/*
+.logo { ... }
+.logo:hover { ... }
+...etc
+*/

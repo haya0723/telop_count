@@ -1,11 +1,12 @@
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  /* Figma Font: TBS Gothic TP, TBS Sans TP - Fallback to sans-serif */
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color-scheme: light; /* Default to light scheme based on Figma */
+  color: #3B3F4A; /* Figma: fill_FI13P3 (General text color) */
+  background-color: #FFFFFF; /* Figma: fill_MOHS06 (Main content background) */
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -15,54 +16,50 @@
 
 a {
   font-weight: 500;
-  color: #646cff;
+  color: #0771F6; /* Figma: fill_R1NNC0 (Button text/border color) */
   text-decoration: inherit;
 }
 a:hover {
-  color: #535bf2;
+  color: #055abf; /* Darker shade of #0771F6 */
 }
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
+  /* display: flex; place-items: center; // Removed for more standard layout */
   min-width: 320px;
   min-height: 100vh;
+  background-color: #FFFFFF; /* Changed to white as per user request */
 }
 
 h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+  /* Figma: style_TPR75R (TBS Sans TP, 700, 48px) or style_5CNZF3 (TBS Gothic TP, 700, 22px) */
+  /* Using a simpler h1 style for now */
+  font-size: 2.5em; /* Adjusted from 3.2em */
+  line-height: 1.2;
+  font-weight: 700;
+  color: #3B3F4A; /* Figma: fill_FI13P3 */
 }
 
 button {
-  border-radius: 8px;
-  border: 1px solid transparent;
+  border-radius: 4px; /* Figma: search_bar borderRadius */
+  border: 1px solid #0771F6; /* Figma: Btn stroke_D38I5T */
   padding: 0.6em 1.2em;
   font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
+  font-weight: 700; /* Figma: Btn font-weight */
+  font-family: inherit; /* Uses :root font-family */
+  background-color: #FFFFFF; /* Figma: Btn background (assuming, or could be transparent with border) */
+  color: #0771F6; /* Figma: Btn text color fill_R1NNC0 */
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: background-color 0.25s, border-color 0.25s;
 }
 button:hover {
-  border-color: #646cff;
+  border-color: #055abf;
+  background-color: #f0f0f0; /* Light hover effect */
 }
 button:focus,
 button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  outline: 4px auto -webkit-focus-ring-color; /* Keep default focus outline for accessibility */
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
-}
+/* @media (prefers-color-scheme: light) section can be removed or merged, as :root now defaults to light */
+/* If a dark theme is needed later, it can be added here */
