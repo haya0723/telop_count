@@ -1,8 +1,9 @@
-import React, { useState, useRef } from 'react'; // Import useRef
+import React, { useState, useRef, useEffect } from 'react'; // Import useRef and useEffect
 import './App.css';
 
 function App() {
   const fileInputRef = useRef(null); // Add useRef for file input
+  const textareaRef = useRef(null); // Add useRef for textarea
   const [csvData, setCsvData] = useState(''); // Default data removed
   const [processedData, setProcessedData] = useState([]);
   const [outputFileName, setOutputFileName] = useState('');
@@ -213,15 +214,7 @@ function App() {
       reader.onload = (e) => {
         const content = e.target.result;
         setCsvData(content);
-        // Trigger height adjustment for textarea after content is set
-        // This might need a slight delay or a more robust way if direct update doesn't work
-        setTimeout(() => {
-          const textarea = document.querySelector('textarea');
-          if (textarea) {
-            textarea.style.height = 'inherit';
-            textarea.style.height = `${textarea.scrollHeight}px`;
-          }
-        }, 0);
+        // Height adjustment will be handled by useEffect
       };
       reader.readAsText(file);
     }
@@ -232,6 +225,14 @@ function App() {
       fileInputRef.current.click();
     }
   };
+
+  // useEffect to adjust textarea height when csvData changes
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'inherit'; // Reset height to recalculate
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`; // Set to scroll height
+    }
+  }, [csvData]);
 
   // defaultCsvData constant removed
 
@@ -245,20 +246,19 @@ function App() {
         style={{ display: 'none' }}
         ref={fileInputRef}
       />
-      <button onClick={triggerFileInput} style={{ marginBottom: '10px', backgroundColor: 'red', color: 'white' }}>
+      <button onClick={triggerFileInput} className="csv-import-button">
         CSVファイルをインポート
       </button>
       <textarea
+        ref={textareaRef} // Assign ref to textarea
         style={{ minHeight: '100px', overflowY: 'hidden' }} /* Removed width, relying on App.css */
         placeholder="CSVデータをここに入力..."
         value={csvData} // Use value for controlled component, removed defaultValue
         onChange={(e) => {
-          // console.log('onChange triggered, new value:', e.target.value); // Debug log removed
           setCsvData(e.target.value);
-          e.target.style.height = 'inherit'; // Reset height to recalculate
-          e.target.style.height = `${e.target.scrollHeight}px`;
+          // Height adjustment will be handled by useEffect
         }}
-        onFocus={(e) => { // Also adjust on focus, removed setCsvData
+        onFocus={(e) => { 
           e.target.style.height = 'inherit';
           e.target.style.height = `${e.target.scrollHeight}px`;
         }}
@@ -268,7 +268,7 @@ function App() {
       {error && <p style={{ color: 'red' }}>{error}</p>}
 
       {processedData.length > 0 && (
-        <div style={{ marginTop: '20px' }}> {/* Removed width and margin, relying on App.css for .App container */}
+        <div style={{ marginTop: '20px', width: '100%' }}> {/* Ensure this div takes full width */}
           <h2>処理結果</h2>
           <div>
             <label htmlFor="fileNameInput">ファイル名: </label>
@@ -289,8 +289,8 @@ function App() {
               </button>
             )}
           </div>
-          <div style={{ border: '1px solid #ccc', marginTop: '10px' }}> {/* Added marginTop for spacing */}
-            <table style={{ width: '100%' }}>{/* Table width to 100% of its container, removed space before thead */}
+          <div style={{ border: '1px solid #ccc', marginTop: '10px', overflowX: 'auto' }}> {/* Added overflowX: 'auto' for horizontal scrolling if needed */}
+            <table style={{ width: '100%' }}>
               <thead>
                 <tr>
                   <th><input type="checkbox" onChange={handleSelectAllRows} checked={processedData.length > 0 && selectedRows.size === processedData.length} /></th>

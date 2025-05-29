@@ -51,3 +51,28 @@ td input[type="checkbox"] {
 .logo:hover { ... }
 ...etc
 */
+
+.csv-import-button {
+  background-color: #007bff; /* 青色 */
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
+
+.csv-import-button:hover {
+  background-color: #0056b3; /* ホバー時の色 */
+}
+
+.csv-import-button:focus {
+  outline: none; /* クリック時の黒枠線を削除 */
+  box-shadow: none; /* 場合によってはbox-shadowも削除 */
+}
+
+/* 他のボタンにも適用する場合 */
+button:focus {
+  outline: none;
+  box-shadow: none;
+}
