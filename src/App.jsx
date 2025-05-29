@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import React, { useState, useRef } from 'react'; // Import useRef
 import './App.css';
 
 function App() {
+  const fileInputRef = useRef(null); // Add useRef for file input
   const [csvData, setCsvData] = useState(''); // Default data removed
   const [processedData, setProcessedData] = useState([]);
   const [outputFileName, setOutputFileName] = useState('');
@@ -149,11 +150,11 @@ function App() {
       return;
     }
 
-    const header = ['経過時間', '区間', 'テロップ内容', '文字数', '平均値'];
+    const header = ['経過時間', '区間', 'テロップ内容', '文字数', '文字数/秒'];
     // The processedData already has: [duration, time_range, elem2, elem3, ..., elem2_char_count, calculated_val]
     // We need to select and reorder for the output CSV.
     // Python script output: [duration, time_range, elem2, elem2_char_count, calculated_val_elem3_per_min]
-    // Note: Python script's "elem3" is not directly in the output, only its use in "平均値"
+    // Note: Python script's "elem3" is not directly in the output, only its use in "文字数/秒"
     // The header implies 5 columns.
     // Python output row: [duration_minutes, time_range_str, element2_str, element2_char_count, calculated_value_elem3_per_min]
     // Our JS `processedData` row: [duration, original_timerange, elem2, elem3 (if any), ..., elem2_char_count, calculated_val]
@@ -205,11 +206,48 @@ function App() {
     }
   };
 
+  const handleFileUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const content = e.target.result;
+        setCsvData(content);
+        // Trigger height adjustment for textarea after content is set
+        // This might need a slight delay or a more robust way if direct update doesn't work
+        setTimeout(() => {
+          const textarea = document.querySelector('textarea');
+          if (textarea) {
+            textarea.style.height = 'inherit';
+            textarea.style.height = `${textarea.scrollHeight}px`;
+          }
+        }, 0);
+      };
+      reader.readAsText(file);
+    }
+  };
+
+  const triggerFileInput = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
   // defaultCsvData constant removed
 
   return (
     <div className="App">
       <h1>Uzit生成データからCSV生成</h1> {/* Restored header */}
+      <input
+        type="file"
+        accept=".csv"
+        onChange={handleFileUpload}
+        style={{ display: 'none' }}
+        ref={fileInputRef}
+      />
+      <button onClick={triggerFileInput} style={{ marginBottom: '10px', backgroundColor: 'red', color: 'white' }}>
+        CSVファイルをインポート
+      </button>
       <textarea
         style={{ minHeight: '100px', overflowY: 'hidden' }} /* Removed width, relying on App.css */
         placeholder="CSVデータをここに入力..."
@@ -260,7 +298,7 @@ function App() {
                   <th>区間</th>
                   <th>テロップ内容</th>
                   <th>文字数</th>
-                  <th>平均値</th>
+                  <th>文字数/秒</th>
                 </tr>
               </thead>
               <tbody>
